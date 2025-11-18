@@ -5,7 +5,7 @@ const chatOutput = document.getElementById('chatOutput');
 const sendBtn = document.getElementById('sendBtn');
 const pointsDisplay = document.getElementById('points');
 
-// Preguntas y respuestas adaptadas para niños de 7-10 años
+// Preguntas y respuestas para 7-10 años
 const respuestasSimuladas = {
   // Saludos
   "hola": "¡Hola! Soy Edu, tu tutor. ¿Listo para aprender jugando?",
@@ -21,20 +21,20 @@ const respuestasSimuladas = {
   "¿qué es una resta?": "Una resta es cuando quitamos una cantidad de otra para saber cuánto queda.",
   "¿qué es multiplicar?": "Multiplicar es sumar un número varias veces. Por ejemplo, 3 x 2 = 3 + 3 = 6",
   "¿qué es dividir?": "Dividir es repartir en partes iguales. Por ejemplo, 6 ÷ 2 = 3",
-  
+
   // Lenguaje
   "escribe una palabra con la letra a": "Casa, araña, amigo... ¿Se te ocurre alguna otra?",
   "qué significa la palabra 'feliz'?": "Feliz significa estar contento o alegre 😊",
   "forma una oración con la palabra 'sol'": "El sol brilla en el cielo ☀️",
   "cuál es la primera letra de 'elefante'?": "La primera letra es E",
-  
+
   // Ciencias
   "nombre de un animal que vive en el agua": "Pez, delfín, tortuga... 🐠",
   "nombre de un animal que vuela": "Pájaro, murciélago, mariposa... 🦋",
   "cuántas patas tiene una araña?": "8 patas 🕷️",
   "qué necesitamos para vivir?": "Agua, comida, aire y cariño ❤️",
   "qué hace la planta para crecer?": "La planta usa agua, luz del sol y tierra 🌱",
-  
+
   // Cultura general
   "qué día viene después del lunes?": "Martes 🗓️",
   "cuántos días tiene la semana?": "7 días",
@@ -52,17 +52,13 @@ const motivaciones = [
   "¡Qué rápido aprendes! 🚀"
 ];
 
-// Función para normalizar texto (minusculas, sin tildes, sin espacios)
+// Normalizar texto
 function normalizar(texto) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .trim();
+  return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 }
 
-// Función para verificar respuestas aproximadas
-function verificarRespuesta(pregunta, respuestaUsuario) {
+// Verificar respuestas aproximadas
+function verificarRespuestaAprox(pregunta, respuestaUsuario) {
   const respuestaNormal = normalizar(respuestaUsuario);
 
   const respuestasAproximadas = {
@@ -76,43 +72,39 @@ function verificarRespuesta(pregunta, respuestaUsuario) {
   };
 
   for (let clave in respuestasAproximadas) {
-    if (normalizar(pregunta).includes(clave)) {
+    if (pregunta.toLowerCase().includes(clave)) {
       return respuestasAproximadas[clave].includes(respuestaNormal);
     }
   }
-
-  return null; // No hay coincidencia aproximada
+  return null;
 }
 
-// Función para obtener respuesta de Edu
+// Obtener respuesta
 function obtenerRespuesta(pregunta) {
   const preguntaNormal = normalizar(pregunta);
   for (let clave in respuestasSimuladas) {
-    if (preguntaNormal.includes(normalizar(clave))) {
+    if (preguntaNormal === normalizar(clave)) {
       return respuestasSimuladas[clave];
     }
   }
   return "¡Mmm! No sé eso todavía 😅 ¿Quieres intentar otra pregunta?";
 }
 
-// Evento enviar
+// Enviar mensaje
 sendBtn.addEventListener('click', () => {
   const preguntaUsuario = chatInput.value;
   if (!preguntaUsuario.trim()) return;
 
-  const respuestaAprox = verificarRespuesta(preguntaUsuario, preguntaUsuario);
+  const respuestaAprox = verificarRespuestaAprox(preguntaUsuario, preguntaUsuario);
   let respuesta;
 
   if (respuestaAprox === true) {
-    // Correcto
-    points += 10;
     const motivacion = motivaciones[Math.floor(Math.random() * motivaciones.length)];
     respuesta = `¡Correcto! 😄 ${motivacion}`;
+    points += 10;
   } else if (respuestaAprox === false) {
-    // Incorrecto
     respuesta = "Casi 😅, inténtalo de nuevo!";
   } else {
-    // Buscar en respuestasSimuladas
     respuesta = obtenerRespuesta(preguntaUsuario);
   }
 
@@ -129,3 +121,4 @@ sendBtn.addEventListener('click', () => {
 chatInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter') sendBtn.click();
 });
+
