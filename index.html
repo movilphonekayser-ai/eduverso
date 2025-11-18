@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduVerso</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Bienvenido a <span class="highlight">EduVerso</span></h1>
+      <p>Explora, aprende y juega junto a <span class="highlight">Edu</span>, tu tutor IA.</p>
+    </header>
+
+    <div class="edu-placeholder"></div>
+
+    <div class="buttons">
+      <button id="loginBtn">Iniciar sesión</button>
+      <button id="signupBtn">Crear cuenta</button>
+    </div>
+
+    <div class="chat-container">
+      <div id="chatOutput" class="chat-output"></div>
+      <input type="text" id="chatInput" placeholder="Escribe tu pregunta aquí..." />
+      <button id="sendBtn">Enviar</button>
+    </div>
+
+    <div class="points">
+      Puntos: <span id="points">0</span>
+    </div>
+
+    <footer>
+      EduVerso © 2025 — Aprender es una aventura
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
